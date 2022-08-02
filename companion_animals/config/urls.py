@@ -24,5 +24,5 @@ urlpatterns = [
     path("board/", include("board.urls")),
     path("common/", include("common.urls")),
     # 메인화면
-    path("", base_views.index, name="index"),
+    path("", base_views.main, name="main"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

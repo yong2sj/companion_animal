@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import redirect, render, get_object_or_404, resolve_url
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
@@ -8,6 +9,15 @@ from django.contrib import messages
 from ..models import Board
 from ..forms import BoardForm
 
+=======
+from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
+from django.db.models import Q, Count
+from ..models import Board
+
+def main(request):
+    return render(request, "board/board_main.html")
+>>>>>>> 6e16982f3ae8a0867d48bd72bc2205601a6697fe
 
 # 게시판 목록 조회
 def index(request):
