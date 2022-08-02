@@ -1,35 +1,15 @@
-<<<<<<< HEAD
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-  <a class="navbar-brand" href="{% url 'board:index' %}">Board</a>
-=======
-<nav class="navbar navbar-expand-lg navbar-light border-bottom" style="background-color:#234E70;">
-  <a class="navbar-brand" href="{% url 'board:index' %}" style="color:white;">Paws&Tails</a>
->>>>>>> 6e16982f3ae8a0867d48bd72bc2205601a6697fe
-  <button
-    class="navbar-toggler ml-auto"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNav"
-    aria-controls="navbarNav"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
+<nav class="navbar navbar-expand-lg navbar-light border-bottom" style="background-color: #234e70">
+  <a class="navbar-brand" href="{% url 'board:index' %}" style="color: white">Paws&Tails</a>
+  <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-
     <ul class="navbar-nav">
       <li class="nav-item">
         {% if user.is_authenticated %}
-<<<<<<< HEAD
-          <a class="nav-link" href="{% url 'common:logout' %}">{{user.username}}님 로그아웃</a>
+        <a class="nav-link" href="{% url 'common:logout' %}" style="color: white">{{user.username}}님 로그아웃</a>
         {% else %}
-          <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
-=======
-          <a class="nav-link" href="{% url 'common:logout' %}" style="color:white;">{{user.username}}님 로그아웃</a>
-        {% else %}
-          <a class="nav-link" href="{% url 'common:login' %}" style="color:white;">로그인</a>
->>>>>>> 6e16982f3ae8a0867d48bd72bc2205601a6697fe
+        <a class="nav-link" href="{% url 'common:login' %}" style="color: white">로그인</a>
         {% endif %}
       </li>
     </ul>
