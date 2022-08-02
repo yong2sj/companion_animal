@@ -22,7 +22,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
- 
+
 # 게시글
 class Board(models.Model):
     # 구별
@@ -44,7 +44,8 @@ class Board(models.Model):
     # 추천수
     # ManyToManyField : 다대다
     voter = models.ManyToManyField(User, related_name="vote_board")
-
+      # 조회수
+    view_cnt = models.BigIntegerField(default=0)
 
 # 댓글
 class Answer(models.Model):
@@ -59,6 +60,8 @@ class Answer(models.Model):
     # 수정된 날짜 보여주기
     # black=True : form.is_valid()를 통한 폼 검사시 값이 없어도 됨
     update_date = models.DateTimeField(null=True, blank=True)
+
+  
 
 
 # 대댓글
