@@ -1,18 +1,14 @@
 <!-- 오류 표시 -->
-{% if form.errors %}
-    {% for field in form %} 
-    <!-- form 안의 요소들 오류 출력 : 입력값 누락, 형식에 맞지 않는 경우-->
-        {% for error in field.errors %}
-            <div class="alert alert-danger" role="alert">
-                <strong>{{field.label}}</strong>
-                {{error}}
-            </div>
-        {% endfor %}
-    {% endfor %}
-    {% for error in field.non_field_errors  %}
-    <!-- non_field_errors : 입력값과 관계없이 발생한 오류 -->
-        <div class="alert alert-danger" role="alert">
-            <strong>{{error}}</strong>
-        </div>
-    {% endfor %}
-{% endif %}
+{% if form.errors %} {% for field in form %}
+<!-- form 안의 요소들 오류 출력 : 입력값 누락, 형식에 맞지 않는 경우-->
+{% for error in field.errors %}
+<div class="alert alert-danger" role="alert">
+  <strong>{{field.label}}</strong>
+  {{error}}
+</div>
+{% endfor %} {% endfor %} {% for error in field.non_field_errors %}
+<!-- non_field_errors : 입력값과 관계없이 발생한 오류 -->
+<div class="alert alert-danger" role="alert">
+  <strong>{{error}}</strong>
+</div>
+{% endfor %} {% endif %}

@@ -22,7 +22,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-
+ 
 # 게시글
 class Board(models.Model):
     # 구별

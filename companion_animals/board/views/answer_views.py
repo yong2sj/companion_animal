@@ -1,9 +1,4 @@
 from django.shortcuts import redirect, render, get_object_or_404, resolve_url
-<<<<<<< HEAD
-from django.core.paginator import Paginator
-from django.db.models import Q, Count
-=======
->>>>>>> 6e16982f3ae8a0867d48bd72bc2205601a6697fe
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -32,16 +27,16 @@ def answer_create(request, board_id):
             return redirect(
                 "{}#answer_{}".format(
                     # resolce_url() : 실제 호출되는 URL을 문자열로 반환
-                    resolve_url("board:detail", question_id=board_id),
+                    resolve_url("board:detail", board_id=board_id),
                     answer.id,
                 )
             )
     else:
         form = AnswerForm()
 
-    context = {"question": board, "form": form}
+    context = {"board": board, "form": form}
 
-    return render(request, "board/question_detail.html", context)
+    return render(request, "board/board_detail.html", context)
 
 
 # 답변 수정 - 원본 내용 찾은 후 수정
@@ -54,7 +49,7 @@ def answer_modify(request, answer_id):
     # 작성자와 같은지 확인
     if request.user != answer.author:
         messages.error(request, "수정할 권한이 없습니다.")
-        return redirect("board:detail", question_id=answer.question.id)
+        return redirect("board:detail", board_id=answer.board.id)
 
     if request.method == "POST":
         form = AnswerForm(request.POST, instance=answer)

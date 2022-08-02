@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-from django.shortcuts import redirect, render, get_object_or_404, resolve_url
-from django.core.paginator import Paginator
-from django.db.models import Q, Count
-=======
 from django.shortcuts import redirect, render, get_object_or_404
->>>>>>> 6e16982f3ae8a0867d48bd72bc2205601a6697fe
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
