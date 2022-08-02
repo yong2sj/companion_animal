@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from board.views import base_views
-# 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('board/', include("board.urls")),
