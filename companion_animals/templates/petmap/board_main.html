@@ -1,9 +1,11 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<div class="container" style="padding-left: 5%">
-  <img src="{% static 'img/title.png' %}" alt="image" />
-</div>
-<h3>test {{m}}</h3>
-<div class="container" style="padding-left: 5%">
-  <a href="{% url 'board:index' %}" style="font-size: 35px; text-align: center; color: #234e70; text-decoration: underline double">게시판으로 이동하기 >>> </a>
+<div class="container">
+  <div class="container mb-5 mt-5" style="padding-left: 11%">
+    <img src="{% static 'img/title.png' %}" alt="image" />
+  </div>
+  <div class="container mt-3 mb-3">{{m | safe}}</div>
+  <div class="container mt-5" style="padding-left: 5%">
+    <a href="{% url 'board:index' %}" style="font-size: 35px; text-align: center; color: #234e70; text-decoration: underline double">게시판으로 이동하기 >>> </a>
+  </div>
 </div>
 {% endblock %}
