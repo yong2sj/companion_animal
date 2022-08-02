@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
-from ..models import Board
+from ..models import Board, BoardCount
+from tools.utils import get_client_ip
+
 
 # 게시판 목록 조회
 def index(request):
@@ -67,21 +69,21 @@ def detail(request, board_id):
 
     ### 조회수 추가
     # 사용자 ip 가져오기
-    # ip = get_client_ip(request)
+    ip = get_client_ip(request)
 
-    # 찾은 ip가 QuestionCount 테이블에 있는지 확인
-    # cnt = QuestionCount.objects.filter(ip=ip, question=question).count()
-
-    # if cnt == 0: # 조회수 증가
-    #     # 모델 생성
-    #     qc = QuestionCount(ip=ip, question=question)
-    #     # 저장
-    #     qc.save()
-    #     # question 테이블의 view_cnt 1 증가
-    #     if question.view_cnt:
-    #         question.view_cnt += 1
-    #     else:
-    #         question.view_cnt = 1
-    #     question.save()
+     # 찾은 ip가 BoardCount 테이블에 있는지 확인
+    cnt = BoardCount.objects.filter(ip=ip, board=board).count()
+    
+    if cnt == 0: # 조회수 증가
+        # 모델 생성
+        bc = BoardCount(ip=ip, board=board)
+        # 저장
+        bc.save()
+        # question 테이블의 view_cnt 1 증가 
+        if board.view_cnt:
+            board.view_cnt += 1
+        else:
+            board.view_cnt = 1
+        board.save()
     context = {"board": board, "page": page, "keyword": keyword, "sort": sort}
     return render(request, "board/board_detail.html", context)
