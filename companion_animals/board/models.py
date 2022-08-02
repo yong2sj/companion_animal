@@ -73,6 +73,3 @@ class Comment(models.Model):
     # 수정된 날짜 보여주기
     # black=True : form.is_valid()를 통한 폼 검사시 값이 없어도 됨
     update_date = models.DateTimeField(null=True, blank=True)
-
-
-

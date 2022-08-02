@@ -17,7 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from board import views
+from board.views import base_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +25,6 @@ urlpatterns = [
     path("common/", include("common.urls")),
 
     # 메인화면
-    path("", views.main, name="main"),
+    path("", base_views.main, name="main"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
