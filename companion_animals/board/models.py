@@ -40,10 +40,12 @@ class Board(models.Model):
     # 수정된 날짜 보여주기
     # black=True : form.is_valid()를 통한 폼 검사시 값이 없어도 됨
     update_date = models.DateTimeField(null=True, blank=True)
-
     # 추천수
     # ManyToManyField : 다대다
     voter = models.ManyToManyField(User, related_name="vote_board")
+    # 조회수
+    view_cnt = models.BigIntegerField(default=0)
+
 
 
 # 댓글
@@ -74,3 +76,11 @@ class Comment(models.Model):
     # 수정된 날짜 보여주기
     # black=True : form.is_valid()를 통한 폼 검사시 값이 없어도 됨
     update_date = models.DateTimeField(null=True, blank=True)
+
+
+class BoardCount(models.Model):
+    ip = models.CharField(max_length=30)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return self.ip

@@ -50,7 +50,7 @@
   <table class="table">
     <thead>
       <tr class="text-center" style="background-color:#234E70; color:white;">
-        <th>행정 구</th>
+        <th>우리동네</th>
         <th>추천</th>
         <th style='width:50%'>제목</th>
         <th>조회수</th>
@@ -78,7 +78,7 @@
             </a>
         </td>
         <td>{{ board.view_cnt }}</td>
-        <td>{{ board.nickname }}</td>
+        <td>{% if not board.nickname %}익명의 집사{% endif %}{{ board.nickname }}</td>
         <td>{{ board.create_date }}</td>
       </tr>
       {% endfor %}

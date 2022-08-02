@@ -9,6 +9,7 @@ def main(request):
 
     # html로 변환
     m = m._repr_html_()
+    
     context = {
         'm':m
     }
