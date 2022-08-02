@@ -35,7 +35,7 @@
           <div class="d-flex justify-content-end">
             <div class="badge badge-light p-2 text-left">
               <!--작성자-->
-              <div class="mb-2">{{board.author.nickname}}</div>
+              <div class="mb-2">닉네임 : {{board.nickname}}</div>
               <!--질문 작성 날짜-->
               {{board.create_date}}
             </div>
@@ -78,7 +78,7 @@
           <div class="d-flex justify-content-end">
             <div class="badge badge-light p-2 text-left">
               <!--작성자-->
-              <div class="mb-2">{{answer.author.username}}</div>
+              <div class="mb-2">닉네임 : {{answer.nickname}}</div>
               <!--답변 작성 날짜-->
               {{ answer.create_date }}
             </div>
@@ -106,7 +106,7 @@
             <a name="comment_{{comment.id}}"></a>
             <div class="comment py-2 text-muted">
               <span style="white-space: pre-line">{{comment.content}}</span>
-              <span> - {{comment.author}}, {{comment.create_date}} {% if comment.modify_date %} (수정 : {{comment.modify_date}} ) {% endif %} </span>
+              <span> - 닉네임 : {{comment.nickname}} // {{comment.create_date}} {% if comment.modify_date %} (수정 : {{comment.modify_date}} ) {% endif %} </span>
               <!--  로그인 사용자 == 작성자 -->
               {% if request.user == comment.author %}
               <a href="{% url 'board:comment_modify' comment.id %}" class="small">수정</a>
