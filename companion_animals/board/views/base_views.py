@@ -6,8 +6,7 @@ from ..models import Board
 
 def main(request):
     return render(request, "board/board_main.html")
-
-
+    
 # 게시판 목록 조회
 def index(request):
     # question 테이블 내용 조회
@@ -16,11 +15,12 @@ def index(request):
     page = request.GET.get("page", 1)  # http://127.0.0.1:8000/board/?page=1
     keyword = request.GET.get("keyword", "")
     sort = request.GET.get("sort", "")
+    sort_a = request.GET.get("sort_a", "recents")
 
     # annotate() : voter라는 필드의 개수를 센 후 nun_voter라는 임시 필드를 추가해 주는 함수
-    if sort == "recent":
+    if sort_a == "recents":
         board_list = Board.objects.order_by("-create_date")
-    elif sort == "recommend":
+    elif sort_a == "recommends":
         board_list = Board.objects.annotate(num_voter=Count("voter")).order_by(
             "-num_voter", "-create_date"
         )
@@ -28,6 +28,12 @@ def index(request):
         board_list = Board.objects.annotate(num_answer=Count("answer")).order_by(
             "-num_answer", "-create_date"
         )
+    
+    # 행정 구 에 맞게 소팅
+    if sort == "서울전체":
+        pass
+    else:
+        board_list = board_list.filter(Q(gu__contains=sort))
 
     # 조회된 목록을 기준으로 검색 조건을 줘서 필터링
     # Q() : OR 조건으로 데이터를 조회
@@ -47,7 +53,7 @@ def index(request):
     )  # Paginator 객체 생성(전체목록, 10) : 전체목록에서 10개씩 가져오기
     page_obj = paginator.get_page(page)
 
-    context = {"board_list": page_obj, "page": page, "keyword": keyword, "sort": sort}
+    context = {"board_list": page_obj, "page": page, "keyword": keyword, "sort": sort, "sort_a":sort_a}
 
     return render(request, "board/board_list.html", context)
 

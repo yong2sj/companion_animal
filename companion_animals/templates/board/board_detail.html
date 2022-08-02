@@ -22,7 +22,7 @@
         <!--추천 수-->
         {{board.voter.count}}
       </div>
-      <a href="#" data-uri="{% url 'board:vote_question' board.id %}" class="recommend btn btn-sm btn-secondary btn-block my-1">추천</a>
+      <a href="#" data-uri="{% url 'board:vote_board' board.id %}" class="recommend btn btn-sm btn-secondary btn-block my-1">추천</a>
     </div>
     <!--추천영역 종료-->
     <div class="col-11">
@@ -48,15 +48,7 @@
               {{board.modify_date}}
             </div>
           </div>
-          {% endif %} {% if board.author == request.user %}
-          <div class="my-3">
-            <a href=" {% url 'board:board_modify' board.id %}  " class="btn btn-sm btn-outline-secondary">수정</a>
-            <a href="#" data-uri="{% url 'board:board_delete' board.id %}" class="delete btn btn-sm btn-outline-secondary">삭제</a>
-          </div>
           {% endif %}
-          <div>
-            <a href=" {% url 'board:comment_create_question' board.id %} " class="small">댓글 추가...</a>
-          </div>
           <!-- 질문 댓글 영역 end -->
         </div>
       </div>
@@ -65,7 +57,7 @@
   <div class="row">
     <div class="col-1"></div>
     <div class="col-11">
-      <!-- 변수 넘기기 {% url 'index' %}?keyword={{keyword}}&page={{page}}&sort={{sort}} -->
+      <!-- 변수 넘기기 ?keyword={{keyword}}&page={{page}}&sort={{sort}} -->
       <a href="javascript:void(0);" class="back_to_list btn btn-primary btn-sm my-4"><i class="fas fa-list"> 목록으로</i></a>
     </div>
   </div>
@@ -76,16 +68,7 @@
   {% for answer in board.answer_set.all %}
   <a name="answer_{{answer.id}}"></a>
   <div class="row my-3">
-    <!--추천영역-->
-    <div class="col-1">
-      <div class="bg-light text-center p-3 border font-weight-bolder mb-1">
-        <!--추천 수-->
-        {{answer.voter.count}}
-      </div>
-      <a href="#" data-uri=" {% url 'board:vote_answer' answer.id %}  " class="recommend btn btn-sm btn-secondary btn-block my-1">추천</a>
-    </div>
-    <!--추천영역 종료-->
-    <div class="col-11">
+    <div class="col-12">
       <div class="card">
         <div class="card-body">
           <div class="card-text">
@@ -126,22 +109,22 @@
               <span> - {{comment.author}}, {{comment.create_date}} {% if comment.modify_date %} (수정 : {{comment.modify_date}} ) {% endif %} </span>
               <!--  로그인 사용자 == 작성자 -->
               {% if request.user == comment.author %}
-              <a href="{% url 'board:comment_modify_answer' comment.id %}" class="small">수정</a>
-              <a href="#" data-uri="{% url 'board:comment_delete_answer' comment.id %}" class="delete small">삭제</a>
+              <a href="{% url 'board:comment_modify' comment.id %}" class="small">수정</a>
+              <a href="#" data-uri="{% url 'board:comment_delete' comment.id %}" class="delete small">삭제</a>
               {% endif %}
             </div>
             {% endfor %}
           </div>
           {% endif %}
           <div>
-            <a href="{% url 'board:comment_create_answer' answer.id %} " class="small">답변 댓글 추가...</a>
+            <a href="{% url 'board:comment_create' answer.id %} " class="small">답변 댓글 추가...</a>
           </div>
         </div>
       </div>
     </div>
   </div>
   {% endfor %}
-  <form action=" {% url 'board:answer_create' question.id %} " method="post" class="my-3">
+  <form action=" {% url 'board:answer_create' board.id %} " method="post" class="my-3">
     {% csrf_token %}
     <!--오류표시-->
     {% if form.errors %}
