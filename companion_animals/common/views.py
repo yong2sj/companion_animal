@@ -25,7 +25,7 @@ def signup(request):
             if user is not None:
                 # login() : 로그인 해주는 함수
                 login(request, user)
-            return redirect('index')
+            return redirect('board:index')
 
     else:
         form = UserForm()

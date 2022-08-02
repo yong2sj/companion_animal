@@ -58,7 +58,7 @@
     <div class="col-1"></div>
     <div class="col-11">
       <!-- 변수 넘기기 ?keyword={{keyword}}&page={{page}}&sort={{sort}} -->
-      <a href="javascript:void(0);" class="back_to_list btn btn-primary btn-sm my-4"><i class="fas fa-list"> 목록으로</i></a>
+      <a href="javascript:void(0);" class="back_to_list btn btn-sm my-4" style="background-color: #234e70; color: white"><i class="fas fa-list"> 목록으로</i></a>
     </div>
   </div>
   <h5 class="border-bottom my-3 py-2">
@@ -117,7 +117,7 @@
           </div>
           {% endif %}
           <div>
-            <a href="{% url 'board:comment_create' answer.id %} " class="small">답변 댓글 추가...</a>
+            <a href="{% url 'board:comment_create' answer.id %} " class="small" style="color: #234e70">답변 댓글 추가...</a>
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@
     <div class="form-group">
       <textarea name="content" id="content" rows="10" class="form-control" {% if not user.is_authenticated %}disabled{% endif %}></textarea>
     </div>
-    <input type="submit" value="답변 등록" class="btn btn-primary" />
+    <input type="submit" value="답변 등록" class="btn" style="background-color: #234e70; color: white" />
   </form>
 </div>
 <!-- 페이지 나누기 추가 -->
