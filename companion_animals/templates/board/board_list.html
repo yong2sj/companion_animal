@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load board_filter %} {% block content %}
 <div class="container my-3">
-  <h1>Question List</h1>
+  <h1 style="text-align:center; padding:2% 0; font-family: 'Gamja Flower', cursive; font-size: 60px; color:#234E70;">반려동물 게시판</h1>
   <div class="row justify-content-end my-3">
     <div class="col-2">
       <select class="form-control sort">
@@ -16,11 +16,18 @@
       </div>
     </div>
   </div>
-  {% if question_list %}
+  <div class="row justify-content-end my-3">
+    <div class="col-2">
+      <a href="" style="color:#234E70;">최신순</a>
+      <a href="" style="color:#234E70;">답변순</a>
+      <a href="" style="color:#234E70;">추천순</a>
+    </div>
+  </div>
+  {% if board_list %}
   <table class="table">
     <thead>
-      <tr class="thead-dark text-center">
-        <th>번호</th>
+      <tr class="text-center" style="background-color:#234E70; color:white;">
+        <th>행정 구</th>
         <th>추천</th>
         <th style='width:50%'>제목</th>
         <th>조회수</th>
@@ -29,36 +36,27 @@
       </tr>
     </thead>
     <tbody>
-      {% for question in question_list %}
+      {% for board in board_list %}
       <tr class='text-center'>
-        <!-- <td>{{question.id}}</td>
-        1부터 숫자를 올려줌 + forloop.counter0 : 0부터 올려줌 
-        forloop.first : 첫 번째 순서라면 True + forloop.last : 마지막 순서라면 True
-        question_list.paginator.count : 전체 게시물 개수
-        question_list.start_index : 시작 인덱스(1부터 시작)
-        forloop.counter0 : 루프 내 현재 인덱스 0 부터 시작 
-        add:1 => +1
-        -->
-
-        <td>{{question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1}}</td>
+        <td>{{board.gu}}</td>
         <td>
           {% if question.voter.all.count %}
           <!-- 추천 컬럼 추가 -->
-          <span class="badge badge-warning px-2 py-1">{{question.voter.all.count}}</span>
+          <span class="badge badge-warning px-2 py-1">{{board.voter.all.count}}</span>
           {% endif %}
         </td>
         <td class='text-left'>
           <!-- 검색 페이지 이동 변수 넘기기 ?keyword={{keyword}}&page={{page}}&sort={{sort}} -->
-          <a href="{%url 'board:detail' question.id%}" class="move" >{{question.subject}}
+          <a href="{%url 'board:detail' board.id%}" class="move" style="color:#234E70;">{{board.subject}}
             <!-- 답변글 개수 카운트 나타내기 -->
-            {% if question.answer_set.count > 0%}
-              <span class="text-danger small ml-2">{{question.answer_set.count}}</span>
+            {% if board.answer_set.count > 0%}
+              <span class="text-danger small ml-2">{{board.answer_set.count}}</span>
             {% endif %}
             </a>
         </td>
-        <td>{{ question.view_cnt }}</td>
-        <td>{{ question.author.username }}</td>
-        <td>{{ question.create_date }}</td>
+        <td>{{ board.view_cnt }}</td>
+        <td>{{ board.nickname }}</td>
+        <td>{{ board.create_date }}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -68,9 +66,9 @@
       <!-- has_previous : 이전 페이지 유무
            previous_page_number : 이전 페이지 번호 
       -->
-      {% if question_list.has_previous %}
+      {% if board_list.has_previous %}
       <li class="page-item">
-        <a class="page-link" href="#" data-page="{{question_list.previous_page_number}}"
+        <a class="page-link" href="#" data-page="{{board_list.previous_page_number}}" style="background-color:#234E70; color:white; border-color:#234E70;" 
           >이전</a
         >
       </li>
@@ -80,21 +78,21 @@
            add:5 => page 에서 +5 만큼 더하기 한 후 번호 보여주기
            number : 현재 페이지 번호
       -->
-      {% for page in question_list.paginator.page_range %} 
-        {% if page >= question_list.number|add:-5 and page <= question_list.number|add:5 %}
+      {% for page in board_list.paginator.page_range %} 
+        {% if page >= board_list.number|add:-5 and page <= board_list.number|add:5 %}
       <li
-        class="page-item {% if page == question_list.number %} active {% endif %}"
+        class="page-item {% if page == board_list.number %} active {% endif %}"
       >
-        <a class="page-link" href="#" data-page="{{page}}">{{page}}</a>
+        <a class="page-link" href="#" data-page="{{page}}" style="background-color:#234E70; color:white; border-color:#234E70;">{{page}}</a>
       </li>
         {% endif %} 
       {% endfor %} 
       <!-- has_next : 다음 페이지 유무
            next_page_number : 다음 페이지 번호 
       -->
-      {% if question_list.has_next %}
+      {% if board_list.has_next %}
       <li class="page-item">
-        <a class="page-link" href="#" data-page="{{question_list.next_page_number}}"
+        <a class="page-link" href="#" data-page="{{board_list.next_page_number}}" style="background-color:#234E70; color:white; border-color:#234E70;"
           >다음</a
         >
       </li>
@@ -103,7 +101,7 @@
   </nav>
   {% endif %}
 
-  <a href="{% url 'board:question_create' %}" class="btn btn-primary"
+  <a href="{% url 'board:board_create' %}" class="btn" style="background-color:#234E70; color:white;" 
     >질문 등록</a
   >
 </div>

@@ -7,10 +7,9 @@ app_name = "board"
 urlpatterns = [
     path("", views.index, name="index"),
     path("<int:question_id>", views.detail, name="detail"),
-    path("question/create", views.question_create, name="question_create"),
+    path("board/create", views.board_create, name="board_create"),
     # /board/question/modify/ question_modify 
-    path("question/modify/<int:question_id>", views.question_modify, name="question_modify"),
+    path("board/modify/<int:question_id>", views.board_modify, name="board_modify"),
     # /board/question/delete/ question_delete 
-    path("question/delete/<int:question_id>", views.question_delete, name="question_delete"),
-
+    path("board/delete/<int:question_id>", views.board_delete, name="board_delete"),
 ]

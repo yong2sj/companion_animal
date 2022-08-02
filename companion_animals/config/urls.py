@@ -25,6 +25,6 @@ urlpatterns = [
     path("common/", include("common.urls")),
 
     # 메인화면
-    path("", views.index, name="index"),
+    path("", views.main, name="main"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Board
+from .models import Board, Profile
 from .forms import BoardForm
 
 def index(request):
@@ -52,7 +52,7 @@ def index(request):
 
     context = {"board_list": page_obj, "page":page, "keyword":keyword, "sort":sort}
     
-    return render(request, "board/question_list.html", context)
+    return render(request, "board/board_list.html", context)
 
 
 def detail(request, board_id):
@@ -87,11 +87,11 @@ def detail(request, board_id):
     #         question.view_cnt = 1
     #     question.save()
     context = {"board":board, "page":page, "keyword":keyword, "sort":sort}
-    return render(request, "board/question_detail.html", context)
+    return render(request, "board/board_detail.html", context)
 
  
 @login_required(login_url='common:login')
-def question_create(request):
+def board_create(request):
     """
     질문등록
     """
@@ -101,18 +101,18 @@ def question_create(request):
             board = form.save(commit=False)
             board.create_date = timezone.now()
             # 작성자 추가(현재 로그인 사용자 : "request.user")
-            board.author = request.user
+            profile = Profile.objects.get(user_id=request.user)
+            board.nickname = profile.nickname
             board.save()
             return redirect("board:index")
-
     else:
         form = BoardForm()
 
-    return render(request, "board/question_form.html", {"form": form})
+    return render(request, "board/board_form.html", {"form": form})
 
 
 @login_required(login_url='common:login')
-def question_modify(request, board_id):
+def board_modify(request, board_id):
     """
     질문 수정(원본 내용 보여준 후 수정)
     """
@@ -135,10 +135,10 @@ def question_modify(request, board_id):
     else:
         form = BoardForm(instance=board)
 
-    return render(request, "board/question_form.html", {"form":form})
+    return render(request, "board/board_form.html", {"form":form})
 
 @login_required(login_url='common:login')
-def question_delete(request, board_id):
+def board_delete(request, board_id):
     """
     질문 삭제
     """
@@ -154,4 +154,5 @@ def question_delete(request, board_id):
 
     return redirect('board:index')
 
-   
+def main(request):
+    return render(request, "board/board_main.html")
