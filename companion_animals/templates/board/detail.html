@@ -1,0 +1,302 @@
+{% extends 'base.html' %} {% load board_filter %} {% block content %}
+<div class="container my-3">
+  <!--추천 오류 표시-->
+  {% if messages %}
+  <div class="alert alert-danger my-3" role="alert">
+    {% for message in messages %}
+    <strong> {{message.tags}} </strong>
+    <ul>
+      <li>{{message.message}}</li>
+    </ul>
+    {% endfor %}
+  </div>
+  {% endif %}
+  <h2 class="border-bottom py-2">
+    <!-- 질문 제목-->
+    {{board.subject}}
+  </h2>
+  <div class="row my-3">
+    <!--추천영역-->
+    <div class="col-1">
+      <div class="bg-light text-center p-3 border font-weight-bolder mb-1">
+        <!--추천 수-->
+        {{board.voter.count}}
+      </div>
+      <a
+        href="#"
+        data-uri=" {% url 'board:vote_board' board.id %}  "
+        class="recommend btn btn-sm btn-secondary btn-block my-1"
+        >추천</a
+      >
+    </div>
+    <!--추천영역 종료-->
+    <div class="col-11">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-text">
+            <!--질문 내용-->
+            {{board.content|mark}}
+          </div>
+          <div class="d-flex justify-content-end">
+            <div class="badge badge-light p-2 text-left">
+              <!--작성자-->
+              <div class="mb-2">{{board.author.username}}</div>
+              <!--질문 작성 날짜-->
+              {{board.create_date}}
+            </div>
+          </div>
+          {% if board.modify_date %}
+          <div class="d-flex justify-content-end">
+            <div class="badge badge-light p-2 text-left">
+              <div class="mb-2">modified at</div>
+              <!--질문 수정 날짜-->
+              {{board.modify_date}}
+            </div>
+          </div>
+          {% endif %} {% if board.nickname == request.user %}
+          <div class="my-3">
+            <a
+              href=" {% url 'board:board_modify' board.id %}  "
+              class="btn btn-sm btn-outline-secondary"
+              >수정</a
+            >
+            <a
+              href="#"
+              data-uri="{% url 'board:board_delete' board.id %}"
+              class="delete btn btn-sm btn-outline-secondary"
+              >삭제</a
+            >
+          </div>
+          {% endif %}
+          <!-- 질문 댓글 영역 start -->
+          {% if board.comment_set.count > 0 %}
+          <div class="mt-3">
+            {% for comment in board.comment_set.all %}
+            <!-- 질문 댓글 앵커 부분-->
+            <a name="comment_{{comment.id}}"></a>
+            <div class="comment py-2 text-muted">
+              <span style="white-space: pre-line">{{comment.content}}</span>
+              <span>
+                - {{comment.author}}, {{comment.create_date}} {% if
+                comment.modify_date %} (수정 : {{comment.modify_date}} ) {%
+                endif %}
+              </span>
+              <!--  로그인 사용자 == 작성자 -->
+              {% if request.user == comment.author %}
+              <a
+                href="{% url 'board:comment_modify_board' comment.id %}"
+                class="small"
+                >수정</a
+              >
+              <a
+                href="#"
+                data-uri="{% url 'board:comment_delete_board' comment.id %}"
+                class="delete small"
+                >삭제</a
+              >
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <div>
+            <a
+              href=" {% url 'board:comment_create_board' board.id %} "
+              class="small"
+              >댓글 추가...</a
+            >
+          </div>
+          <!-- 질문 댓글 영역 end -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-11">
+      <a
+        href="javascript:void(0);"
+        class="back_to_list btn btn-primary btn-sm my-4"
+        ><i class="fas fa-list"> 목록으로</i></a
+      >
+    </div>
+  </div>
+  <h5 class="border-bottom my-3 py-2">
+    <!--답변 개수-->
+    {{board.answer_set.count}} 개의 답변이 있습니다.
+  </h5>
+  {% for answer in board.answer_set.all %}
+  <a name="answer_{{answer.id}}"></a>
+  <div class="row my-3">
+    <!--추천영역-->
+    <div class="col-1">
+      <div class="bg-light text-center p-3 border font-weight-bolder mb-1">
+        <!--추천 수-->
+        {{answer.voter.count}}
+      </div>
+      <a
+        href="#"
+        data-uri=" {% url 'board:vote_answer' answer.id %}  "
+        class="recommend btn btn-sm btn-secondary btn-block my-1"
+        >추천</a
+      >
+    </div>
+    <!--추천영역 종료-->
+    <div class="col-11">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-text">
+            <!--답변 내용-->
+            {{ answer.content|mark }}
+          </div>
+          <div class="d-flex justify-content-end">
+            <div class="badge badge-light p-2 text-left">
+              <!--작성자-->
+              <div class="mb-2">{{answer.author.username}}</div>
+              <!--답변 작성 날짜-->
+              {{ answer.create_date }}
+            </div>
+          </div>
+          {% if answer.modify_date %}
+          <div class="d-flex justify-content-end">
+            <div class="badge badge-light p-2 text-left">
+              <div class="mb-2">modified at</div>
+              <!--답변 수정 날짜-->
+              {{answer.modify_date}}
+            </div>
+          </div>
+          {% endif %} {% if request.user == answer.author %}
+          <div class="my-3">
+            <a
+              href=" {% url 'board:answer_modify' answer.id %} "
+              class="btn btn-sm btn-outline-secondary"
+              >수정</a
+            >
+            <a
+              href="#"
+              data-uri=" {% url 'board:answer_delete' answer.id %} "
+              class="delete btn btn-sm btn-outline-secondary"
+              >삭제</a
+            >
+          </div>
+          {% endif %}
+          <!--답변 댓글 작성부분-->
+          <!-- 답변 댓글 영역 start -->
+          {% if answer.comment_set.count > 0 %}
+          <div class="mt-3">
+            {% for comment in answer.comment_set.all %}
+            <!-- 답변 댓글 앵커 부분-->
+            <a name="comment_{{comment.id}}"></a>
+            <div class="comment py-2 text-muted">
+              <span style="white-space: pre-line">{{comment.content}}</span>
+              <span>
+                - {{comment.author}}, {{comment.create_date}} {% if
+                comment.modify_date %} (수정 : {{comment.modify_date}} ) {%
+                endif %}
+              </span>
+              <!--  로그인 사용자 == 작성자 -->
+              {% if request.user == comment.author %}
+              <a
+                href="{% url 'board:comment_modify_answer' comment.id %}"
+                class="small"
+                >수정</a
+              >
+              <a
+                href="#"
+                data-uri="{% url 'board:comment_delete_answer' comment.id %}"
+                class="delete small"
+                >삭제</a
+              >
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <div>
+            <a
+              href="{% url 'board:comment_create_answer' answer.id %} "
+              class="small"
+              >답변 댓글 추가...</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <form
+    action=" {% url 'board:answer_create' board.id %} "
+    method="post"
+    class="my-3"
+  >
+    {% csrf_token %}
+    <!--오류표시-->
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for field in form %} {% if field.errors %}
+      <strong> {{field.label}} </strong>
+      {{field.errors}} {% endif %} {% endfor %}
+    </div>
+    {% endif %}
+    <div class="form-group">
+      <textarea
+        name="content"
+        id="content"
+        rows="10"
+        class="form-control"
+        {%
+        if
+        not
+        user.is_authenticated
+        %}disabled{%
+        endif
+        %}
+      ></textarea>
+    </div>
+    <input type="submit" value="답변 등록" class="btn btn-primary" />
+  </form>
+</div>
+
+<!-- 페이지 나누기 추가-->
+<form action=" {% url 'board:index' %} " id="searchForm" method="get">
+  <input
+    type="hidden"
+    name="keyword"
+    id="keyword"
+    value="{{keyword|default_if_none:''}}"
+  />
+  <input type="hidden" name="page" id="page" value="{{page}}" />
+  <input type="hidden" name="sort" id="sort" value="{{sort}}" />
+</form>
+
+{% endblock %} {% block script %}
+<script>
+  $(function () {
+    $(".delete").click(function () {
+      //console.log($(this).data("uri"))
+      if (confirm("정말로 삭제하시겠습니까?")) {
+        location.href = $(this).data("uri");
+      }
+    });
+
+    // 추천 버튼 클릭시 data-uri 값 가져오기
+    $(".recommend").click(function () {
+      //console.log($(this).data("uri"));
+      if (confirm("정말로 추천하시겠습니까?")) {
+        location.href = $(this).data("uri");
+      }
+    });
+
+    // 목록으로 버튼 클릭시 searchForm 보내기
+    $(".back_to_list").click(function () {
+      $("#searchForm").submit();
+    });
+  });
+</script>
+{% endblock %}
+
+<!--
+  request.user : 현재 로그인된 정보(User 객체)
+
+  is_authenticated => 현재 로그인되어 있는 객체를 의미
+-->
