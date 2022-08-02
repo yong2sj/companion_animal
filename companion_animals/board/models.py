@@ -57,7 +57,8 @@ class Profile(models.Model):
     # 연락처
     phone = models.CharField(max_length=15)
     # 반려동물 종
-    spicies = models.CharField(max_length=10)
+    species = models.CharField(max_length=10)
     # 반려동물 이름
     pet_name = models.CharField(max_length=10)
+    # 사진 추가
     # image = models.ImageField(upload_to="profile/", default="default.png")
