@@ -17,12 +17,13 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from board.views import base_views
+from petmap import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("board/", include("board.urls")),
     path("common/", include("common.urls")),
+    path("petmap/", include("petmap.urls")),
     # 메인화면
-    path("", base_views.main, name="main"),
+    path("", views.main, name="main"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
