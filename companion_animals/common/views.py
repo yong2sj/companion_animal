@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+
+from .models import Profile
 from .forms import UserForm, ProfileUpdateForm, ProfileForm, UserUpdateForm
 
 
@@ -29,7 +31,7 @@ def signup(request):
                 # login() : 로그인 해주는 함수
                 login(request, user)
 
-            messages.success(request, f"Paws & Tails의 가족이 되신 걸 환영합니다!")
+            # messages.success(request, f"Paws & Tails의 가족이 되신 걸 환영합니다!")
             return redirect("board:index")
 
     else:
@@ -40,6 +42,7 @@ def signup(request):
 
 @login_required
 def profile(request):
+    profile = Profile.objects.get(user_id=request.user)
     if request.method == "POST":
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(
@@ -48,13 +51,13 @@ def profile(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, f"계정이 업데이트 되었습니다!")
+            # messages.success(request, f"계정이 업데이트 되었습니다!")
             return redirect("main")  # Redirect back to profile page
 
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
-    context = {"u_form": u_form, "p_form": p_form}
+    context = {"u_form": u_form, "p_form": p_form, "profile": profile}
 
     return render(request, "common/profile.html", context)
