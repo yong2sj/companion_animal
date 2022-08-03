@@ -5,24 +5,22 @@
       <img class="rounded account-img" src="{{profile.image.url}}" style="border: solid" alt="반려동물" />
     </div>
     <div class="media-body m-5">
-      <h2 class="account-heading">계정명 : {{ user.username }}</h2>
-      <p class="text-secondary">이메일 : {{ user.email }}</p>
-      <!-- 이 공간이 휑하다-->
+      <!-- FORM HERE -->
+      <form method="POST" enctype="multipart/form-data" class="mb-5 mr-5 ml-5">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">프로필 정보</legend>
+          {{ u_form|crispy }}
+          <!-- User form -->
+          {{ p_form|crispy }}
+          <!-- Profile form -->
+        </fieldset>
+        <div class="form-group">
+          <button class="btn" type="submit" style="background-color: #234e70; color: white">수정하기</button>
+          <button class="btn" type="submit" style="background-color: blue; color: white">탈퇴하기</button>
+        </div>
+      </form>
     </div>
   </div>
-  <!-- FORM HERE -->
-  <form method="POST" enctype="multipart/form-data" class="mb-5 mr-5 ml-5">
-    {% csrf_token %}
-    <fieldset class="form-group">
-      <legend class="border-bottom mb-4">프로필 정보</legend>
-      {{ u_form|crispy , readonly}}
-      <!-- User form -->
-      {{ p_form|crispy }}
-      <!-- Profile form -->
-    </fieldset>
-    <div class="form-group">
-      <button class="btn" type="submit" style="background-color: #234e70; color: white">수정하기</button>
-    </div>
-  </form>
 </div>
 {% endblock %}
