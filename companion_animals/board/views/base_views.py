@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
@@ -26,7 +27,7 @@ def index(request):
         board_list = Board.objects.annotate(num_answer=Count("answer")).order_by(
             "-num_answer", "-create_date"
         )
-    
+
     # 행정 구 에 맞게 소팅
     if sort == "서울전체":
         pass
@@ -38,12 +39,18 @@ def index(request):
     # subject__contains(대소문자 구별)
     # subject__icontains(대소문자 구별 하지 않음)
 
+    # matches = ["익명", "집사"]
+    # if any(re.findall(r"|".join(matches), keyword, re.IGNORECASE)):
+    #    board_list = board_list.filter(
+    #        ~Q(nickname__icontains=keyword) | ~Q(answer__nickname__icontains=keyword)
+    #    )
+
     if keyword:
         board_list = board_list.filter(
             Q(subject__icontains=keyword)
             | Q(content__icontains=keyword)
-            | Q(author__username__icontains=keyword)
-            | Q(answer__author__username__icontains=keyword)
+            | Q(nickname__nickname__icontains=keyword)
+            | Q(answer__nickname__nickname__icontains=keyword)
         ).distinct()
 
     paginator = Paginator(
@@ -51,7 +58,13 @@ def index(request):
     )  # Paginator 객체 생성(전체목록, 10) : 전체목록에서 10개씩 가져오기
     page_obj = paginator.get_page(page)
 
-    context = {"board_list": page_obj, "page": page, "keyword": keyword, "sort": sort, "sort_a":sort_a}
+    context = {
+        "board_list": page_obj,
+        "page": page,
+        "keyword": keyword,
+        "sort": sort,
+        "sort_a": sort_a,
+    }
 
     return render(request, "board/board_list.html", context)
 
@@ -63,6 +76,7 @@ def detail(request, board_id):
     page = request.GET.get("page", 1)  # http://127.0.0.1:8000/board/?page=1
     keyword = request.GET.get("keyword", "")
     sort = request.GET.get("sort", "")
+    sort_a = request.GET.get("sort_a", "")
 
     # 없는 id를 요청했을 때 웹 페이지에 오류 메세지가 그대로 출력
     board = get_object_or_404(Board, id=board_id)
@@ -71,19 +85,25 @@ def detail(request, board_id):
     # 사용자 ip 가져오기
     ip = get_client_ip(request)
 
-     # 찾은 ip가 BoardCount 테이블에 있는지 확인
+    # 찾은 ip가 BoardCount 테이블에 있는지 확인
     cnt = BoardCount.objects.filter(ip=ip, board=board).count()
-    
-    if cnt == 0: # 조회수 증가
+
+    if cnt == 0:  # 조회수 증가
         # 모델 생성
         bc = BoardCount(ip=ip, board=board)
         # 저장
         bc.save()
-        # question 테이블의 view_cnt 1 증가 
+        # question 테이블의 view_cnt 1 증가
         if board.view_cnt:
             board.view_cnt += 1
         else:
             board.view_cnt = 1
         board.save()
-    context = {"board": board, "page": page, "keyword": keyword, "sort": sort}
+    context = {
+        "board": board,
+        "page": page,
+        "keyword": keyword,
+        "sort": sort,
+        "sort_a": sort_a,
+    }
     return render(request, "board/board_detail.html", context)
