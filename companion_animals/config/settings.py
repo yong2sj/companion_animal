@@ -28,9 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# 커스텀 유저 사용
+# AUTH_USER_MODEL = "common.User" // 앱.클래스
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -44,6 +45,8 @@ INSTALLED_APPS = [
     "common",
     # 지도
     "petmap",
+    # CSS 태그 제공
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [
@@ -126,8 +129,10 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -135,7 +140,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # 로그인 성공시 이동할 URL 지정
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
 
 # 로그아웃 성공시 이동할 URL 지정
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = "/"

@@ -78,7 +78,8 @@
             </a>
         </td>
         <td>{{ board.view_cnt }}</td>
-        <td>{% if not board.nickname %}익명의 집사{% endif %}{{ board.nickname }}</td>
+        <td>{{ board.nickname.nickname }}</td>
+        {% comment %} {% if not board.nickname %}익명의 집사{% endif %} {% endcomment %}
         <td>{{ board.create_date }}</td>
       </tr>
       {% endfor %}

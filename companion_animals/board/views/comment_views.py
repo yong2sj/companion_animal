@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404, resolve_url
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from common.models import Profile
 
 from ..models import Answer, Comment
 from ..forms import CommentForm
@@ -19,7 +20,8 @@ def comment_create(request, answer_id):
         if form.is_valid():
             comment = form.save(commit=False)
             # 추가 작업 (forms.py에서 안한 작업)
-            comment.nickname = request.user  # 로그인 사용자
+            profile = Profile.objects.get(user_id=request.user)
+            comment.nickname = profile
             comment.create_date = timezone.now()  # 현재 시간 날짜
             comment.answer = answer
             comment.save()
@@ -44,7 +46,7 @@ def comment_modify(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
 
     # 작성자와 같은지 확인
-    if request.user != comment.author:
+    if request.user.id == comment.nickname:
         messages.error(request, "댓글을 수정할 권한이 없습니다.")
         return redirect("board:detail", board_id=comment.answer.board.id)
 
@@ -76,7 +78,7 @@ def comment_delete(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
 
     # 작성자와 같은지 확인
-    if request.user != comment.nickname:
+    if request.user.id == comment.nickname:
         messages.error(request, "댓글을 삭제할 권한이 없습니다.")
         return redirect("board:detail", question_id=comment.answer.board.id)
 

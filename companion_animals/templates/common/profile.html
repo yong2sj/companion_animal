@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="content-section">
+  <div class="media">
+    <img class="rounded-circle account-img" src="" />
+    <div class="media-body m-5">
+      <h2 class="account-heading">계정명 : {{ user.username }}</h2>
+      <p class="text-secondary">이메일 : {{ user.email }}</p>
+    </div>
+  </div>
+  <!-- FORM HERE -->
+  <form method="POST" enctype="multipart/form-data" class="mb-5 mr-5 ml-5">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">프로필 정보</legend>
+      {{ u_form|crispy }}
+      <!-- User form -->
+      {{ p_form|crispy }}
+      <!-- Profile form -->
+    </fieldset>
+    <div class="form-group">
+      <button class="btn" type="submit" style="background-color: #234e70; color: white">수정하기</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

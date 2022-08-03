@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404, resolve_url
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from common.models import Profile
 from ..models import Board, Answer
 from ..forms import AnswerForm
 
@@ -17,7 +17,8 @@ def answer_create(request, board_id):
         if form.is_valid():
             answer = form.save(commit=False)
             # 작성자 추가 (현재 로그인 사용자 : request.user)
-            answer.nickname = request.user
+            profile = Profile.objects.get(user_id=request.user)
+            answer.nickname = profile
             answer.create_date = timezone.now()
             answer.board = board
             answer.save()
@@ -47,7 +48,7 @@ def answer_modify(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
 
     # 작성자와 같은지 확인
-    if request.user != answer.author:
+    if request.user.id == answer.nickname:
         messages.error(request, "수정할 권한이 없습니다.")
         return redirect("board:detail", board_id=answer.board.id)
 
@@ -57,7 +58,8 @@ def answer_modify(request, answer_id):
         # 유효성 검사
         if form.is_valid():
             answer = form.save(commit=False)
-            answer.nickname = request.user  # 작성자
+            profile = Profile.objects.get(user_id=request.user)
+            answer.nickname = profile
             answer.modify_date = timezone.now()  # 수정 날짜
             answer.save()
 
@@ -85,7 +87,7 @@ def answer_delete(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
 
     # 작성자와 같은지 확인
-    if request.user != answer.nickname:
+    if request.user.id == answer.nickname:
         messages.error(request, "삭제할 권한이 없습니다.")
         return redirect("board:detail", board_id=answer.board.id)
 
