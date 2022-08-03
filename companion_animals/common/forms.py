@@ -13,6 +13,9 @@ class UserForm(UserCreationForm):
 
 
 class UserUpdateForm(forms.ModelForm):
+    username = forms.CharField(
+        label="사용자이름", widget=forms.TextInput(attrs={"readonly": "readonly"})
+    )
     email = forms.EmailField(
         label="이메일", widget=forms.EmailInput(attrs={"readonly": "readonly"})
     )

@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.db import models
 from common.models import Profile
 from django.contrib.auth.models import User
@@ -15,7 +16,7 @@ class Board(models.Model):
         Profile, on_delete=models.CASCADE, related_name="nickname_board"
     )
     # 카테고리
-    # category = models.CharField(max_length=20)
+    category = models.CharField(max_length=20)
     # 생성 날짜
     create_date = models.DateTimeField()
     # 수정된 날짜 보여주기

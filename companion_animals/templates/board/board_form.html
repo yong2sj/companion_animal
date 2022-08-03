@@ -20,6 +20,16 @@
     <div class="container" style="padding: 0 0 2%">
       <div class="row">
         <div class="col-sm">
+          <label for="gu">분류</label>
+          <select class="form-control form-control-sm sort" id="category" name="category">
+            <option value="잡담">잡담</option>
+            <option value="정보공유">정보공유</option>
+            <option value="모임">모임</option>
+            <option value="질문">질문</option>
+            <option value="자랑">자랑</option>
+          </select>
+        </div>
+        <div class="col-sm">
           <label for="gu">행정 구</label>
           <select class="form-control form-control-sm sort" id="gu" name="gu">
             <option value="종로구">종로구</option>
@@ -49,17 +59,6 @@
             <option value="강동구">강동구</option>
           </select>
         </div>
-        {% comment %}
-        <div class="col-sm">
-          <label for="category">카테고리</label>
-          <select class="form-control form-control-sm sort" id="category" name="category">
-            <option value="질문">질문</option>
-            <option value="정보공유">정보공유</option>
-            <option value="모임">모임</option>
-            <option value="핫딜">핫딜</option>
-          </select>
-        </div>
-        {% endcomment %}
       </div>
     </div>
 

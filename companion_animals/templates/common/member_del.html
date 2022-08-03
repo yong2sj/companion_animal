@@ -1,0 +1,7 @@
+{% extends 'base.html' %} {% block content %}
+<h1>회원탈퇴</h1>
+<form action="{% url 'common:delete' %}" method="post">
+  {% csrf_token %} 비밀번호 : <input type="password" name="password" />
+  <input type="submit" value="회원탈퇴" />
+</form>
+{% endblock %}

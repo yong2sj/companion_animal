@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from requests import Session, session
 
 from .models import Profile
 from .forms import UserForm, ProfileUpdateForm, ProfileForm, UserUpdateForm
@@ -61,3 +63,12 @@ def profile(request):
     context = {"u_form": u_form, "p_form": p_form, "profile": profile}
 
     return render(request, "common/profile.html", context)
+
+
+def delete(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            request.user.delete()
+            request.session.clear()
+            return redirect("main")
+    return render(request, "common/member_del.html")
