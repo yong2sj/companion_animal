@@ -1,27 +1,6 @@
 from django.db import models
+from common.models import Profile
 from django.contrib.auth.models import User
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-
-# 프로필
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    # 별명
-    nickname = models.CharField(max_length=30)
-    # 연락처
-    phone = models.CharField(max_length=30)
-    # 반려동물 종
-    species = models.CharField(max_length=30)
-    # 반려동물 이름
-    pet_name = models.CharField(max_length=30)
-    # image = models.ImageField(upload_to="profile/", default="default.png")
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
 
 # 게시글
 class Board(models.Model):
@@ -32,7 +11,9 @@ class Board(models.Model):
     # 내용
     content = models.TextField()
     # 작성자
-    nickname = models.CharField(max_length=30)
+    nickname = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="nickname_board"
+    )
     # 카테고리
     # category = models.CharField(max_length=20)
     # 생성 날짜
@@ -54,7 +35,9 @@ class Answer(models.Model):
     # 댓글 내용
     content = models.TextField()
     # 작성자
-    nickname = models.CharField(max_length=30)
+    nickname = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="nickname_answer"
+    )
     # 생성 날짜
     create_date = models.DateTimeField()
     # 수정된 날짜 보여주기
@@ -69,7 +52,9 @@ class Comment(models.Model):
     # 댓글 내용
     content = models.TextField()
     # 작성자
-    nickname = models.CharField(max_length=30)
+    nickname = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="nickname_comment"
+    )
     # 생성 날짜
     create_date = models.DateTimeField()
     # 수정된 날짜 보여주기

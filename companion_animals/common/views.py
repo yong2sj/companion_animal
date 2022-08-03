@@ -1,6 +1,8 @@
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
-from .forms import UserForm
+from django.contrib.auth.decorators import login_required
+from .forms import UserForm, ProfileUpdateForm, ProfileForm, UserUpdateForm
 
 
 def signup(request):
@@ -26,9 +28,33 @@ def signup(request):
             if user is not None:
                 # login() : 로그인 해주는 함수
                 login(request, user)
-            return redirect('board:index')
+
+            messages.success(request, f"Paws & Tails의 가족이 되신 걸 환영합니다!")
+            return redirect("board:index")
 
     else:
         form = UserForm()
 
     return render(request, "common/signup.html", {"form": form})
+
+
+@login_required
+def profile(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile
+        )
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f"계정이 업데이트 되었습니다!")
+            return redirect("main")  # Redirect back to profile page
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {"u_form": u_form, "p_form": p_form}
+
+    return render(request, "common/profile.html", context)

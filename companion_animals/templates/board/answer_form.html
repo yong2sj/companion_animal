@@ -4,10 +4,10 @@
     {% csrf_token %} {% include 'form_errors.html' %}
     <!-- 답변 수정 폼 -->
     <div class="form-group">
-      <label for="content">답변 내용</label>
+      <label for="content">댓글 내용</label>
       <textarea name="content" id="content" rows="10" class="form-control">{{form.content.value | default_if_none:''}}</textarea>
     </div>
-    <button type="submit" class="btn btn-primary">저장하기</button>
+    <button type="submit" class="btn btn-primary">댓글 등록</button>
   </form>
 </div>
 {% endblock content %}

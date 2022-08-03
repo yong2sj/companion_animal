@@ -28,6 +28,24 @@
       <label for="email">이메일</label>
       <input type="text" name="email" id="email" class="form-control" value="{{ form.email.value | default_if_none:'' }}" />
     </div>
+    {% comment %}
+    <div class="form-group">
+      <label for="nickname">닉네임(별명)</label>
+      <input type="text" name="nickname" id="nickname" class="form-control" value="{{ form.nickname.value | default_if_none:'익명의 집사' }}" />
+    </div>
+    <div class="form-group">
+      <label for="phone">핸드폰</label>
+      <input type="text" name="phone" id="phone" class="form-control" value="{{ form.phone.value | default_if_none:'' }}" />
+    </div>
+    <div class="form-group">
+      <label for="species">반려동물 종</label>
+      <input type="text" name="species" id="species" class="form-control" value="{{ form.species.value | default_if_none:'' }}" />
+    </div>
+    <div class="form-group">
+      <label for="pet_name">반려동물 이름</label>
+      <input type="text" name="pet_name" id="pet_name" class="form-control" value="{{ form.pet_name.value | default_if_none:'' }}" />
+    </div>
+    {% endcomment %}
     <div>
       <button type="submit" class="btn btn-primary">회원가입</button>
     </div>
