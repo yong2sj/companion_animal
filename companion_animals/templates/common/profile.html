@@ -1,10 +1,13 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
 <div class="content-section">
   <div class="media">
-    <img class="rounded-circle account-img" src="" />
+    <div class="row ml-5 mt-3 mb-3">
+      <img class="rounded account-img" src="{{profile.image.url}}" style="border: solid" alt="반려동물" />
+    </div>
     <div class="media-body m-5">
       <h2 class="account-heading">계정명 : {{ user.username }}</h2>
       <p class="text-secondary">이메일 : {{ user.email }}</p>
+      <!-- 이 공간이 휑하다-->
     </div>
   </div>
   <!-- FORM HERE -->
