@@ -125,9 +125,7 @@
   </nav>
   {% endif %}
 
-  <a href="{% url 'board:board_create' %}" class="btn" style="background-color:#234E70; color:white;" 
-    >질문 등록</a
-  >
+  <a href="{% url 'board:board_create' %}" class="btn" style="background-color:#234E70; color:white;" > 게시글 등록 </a>
 </div>
 <form action="" id="searchForm" method="get">
   <input type="hidden" name="keyword" id="keyword" value="{{keyword|default_if_none:''}}">
