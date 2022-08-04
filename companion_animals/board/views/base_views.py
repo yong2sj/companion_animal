@@ -1,4 +1,3 @@
-import re
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
@@ -14,6 +13,7 @@ def index(request):
     page = request.GET.get("page", 1)  # http://127.0.0.1:8000/board/?page=1
     keyword = request.GET.get("keyword", "")
     sort = request.GET.get("sort", "")
+    sort2 = request.GET.get("sort2", "")
     sort_a = request.GET.get("sort_a", "recents")
 
     # annotate() : voter라는 필드의 개수를 센 후 nun_voter라는 임시 필드를 추가해 주는 함수
@@ -33,6 +33,9 @@ def index(request):
         pass
     else:
         board_list = board_list.filter(Q(gu__contains=sort))
+
+    # 카테고리에 맞게 소팅
+    board_list = board_list.filter(Q(category__contains=sort2))
 
     # 조회된 목록을 기준으로 검색 조건을 줘서 필터링
     # Q() : OR 조건으로 데이터를 조회
@@ -64,6 +67,7 @@ def index(request):
         "keyword": keyword,
         "sort": sort,
         "sort_a": sort_a,
+        "sort2": sort2,
     }
 
     return render(request, "board/board_list.html", context)

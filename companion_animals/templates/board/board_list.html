@@ -32,6 +32,15 @@
         <option value="강동구" {% if sort == '강동구' %}selected{% endif %}>강동구</option>
       </select>
     </div>
+    <div class="col-2">
+      <select class="form-control sort2" id="category" name="category">
+        <option value="잡담" {% if sort2 == '잡담' %}selected{% endif %}>잡담</option>
+        <option value="정보공유" {% if sort2 == '정보공유' %}selected{% endif %}>정보공유</option>
+        <option value="모임" {% if sort2 == '모임' %}selected{% endif %}>모임</option>
+        <option value="질문" {% if sort2 == '질문' %}selected{% endif %}>질문</option>
+        <option value="자랑" {% if sort2 == '자랑' %}selected{% endif %}>자랑</option>
+      </select>
+    </div>
     <div class="col-4 input-group">
       <input type="text" class="form-control keyword" value="{{keyword|default_if_none:''}}">
       <div class="input-group-append">
@@ -51,8 +60,9 @@
     <thead>
       <tr class="text-center" style="background-color:#234E70; color:white;">
         <th>우리동네</th>
+        <th>분류</th>
+        <th style='width:40%'>제목</th>
         <th>추천</th>
-        <th style='width:50%'>제목</th>
         <th>조회수</th>
         <th>작성자</th>
         <th>작성일시</th>
@@ -62,12 +72,7 @@
       {% for board in board_list %}
       <tr class='text-center'>
         <td>{{board.gu}}</td>
-        <td>
-          {% if board.voter.all.count %}
-          <!-- 추천 컬럼 추가 -->
-          <span class="badge badge-warning px-2 py-1">{{board.voter.all.count}}</span>
-          {% endif %}
-        </td>
+        <td>{{board.category}}</td>
         <td class='text-left'>
           <!-- 검색 페이지 이동 변수 넘기기 ?keyword={{keyword}}&page={{page}}&sort={{sort}} -->
           <a href="{%url 'board:detail' board.id%}" class="move" style="color:#234E70;">{{board.subject}}
@@ -76,6 +81,12 @@
               <span class="text-danger small ml-2">{{board.answer_set.count}}</span>
             {% endif %}
             </a>
+        </td>
+        <td>
+          {% if board.voter.all.count %}
+          <!-- 추천 컬럼 추가 -->
+          <span class="badge badge-warning px-2 py-1">{{board.voter.all.count}}</span>
+          {% endif %}
         </td>
         <td>{{ board.view_cnt }}</td>
         <td>{{ board.nickname.nickname }}</td>
@@ -131,6 +142,7 @@
   <input type="hidden" name="keyword" id="keyword" value="{{keyword|default_if_none:''}}">
   <input type="hidden" name="page" id="page" value="{{page}}">
   <input type="hidden" name="sort" id="sort" value="{{sort}}">
+  <input type="hidden" name="sort2" id="sort2" value="{{sort2}}">
   <input type="hidden" name="sort_a" id="sort_a" value="{{sort_a}}">
 </form>
 {% endblock  %}
@@ -163,6 +175,17 @@ $(function(){
 
     // searchForm 안에 sort value 채워주기
     $("#sort").val($(this).val());
+   
+    // page=1 로 지정, 폼 전송
+    $("#page").val(1);
+
+    $("#searchForm").attr("action", "");
+    $("#searchForm").submit();
+  })
+
+  $(".sort2").change(function(){
+    // searchForm 안에 sort2 value 채워주기
+    $("#sort2").val($(this).val());
    
     // page=1 로 지정, 폼 전송
     $("#page").val(1);

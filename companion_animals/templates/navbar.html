@@ -11,6 +11,8 @@
           <a class="nav-link" href="{% url 'common:logout' %}" style="color: white">{{user.username}}님 로그아웃</a>
           <h3 style="color: #fbf8be">/</h3>
           <a class="nav-link" href="{% url 'common:profile' %}" style="color: white">프로필 보기</a>
+          <h3 style="color: #fbf8be">/</h3>
+          <a class="nav-link" href="{% url 'chat:index' %}" style="color: white">채팅방 입장하기</a>
         </div>
         {% else %}
         <div class="row">
