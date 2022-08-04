@@ -1,4 +1,5 @@
 # chat/views.py
+from time import time
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Room, RoomCount
@@ -8,6 +9,10 @@ from tools.utils import get_client_ip
 def index(request):
     rooms = Room.objects.filter(count_users__lte=0)
     for room in rooms:
+        try:
+            time.sleep(1)
+        except:
+            pass
         room.delete()
     rooms = Room.objects.all()
     context = {

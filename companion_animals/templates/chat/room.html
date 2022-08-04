@@ -4,7 +4,7 @@
   <h5>{{ user.username }}님 반갑습니다.</h5>
   <textarea id="chat-log" cols="100" rows="20" readonly></textarea><br />
   <input id="chat-message-input" type="text" size="100" /><br />
-  <input class="mt-3" id="chat-message-submit" type="button" value="Send" />
+  <input class="mt-3" id="chat-message-submit" type="button" value="입력하기" />
   <button id="chat-close"><a id="chat-close-btn" href="{% url 'chat:index' %}">채팅방 나가기</a></button>
 </div>
 {% endblock content %}
