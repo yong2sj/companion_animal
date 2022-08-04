@@ -35,18 +35,15 @@ def index(request):
         board_list = board_list.filter(Q(gu__contains=sort))
 
     # 카테고리에 맞게 소팅
-    board_list = board_list.filter(Q(category__contains=sort2))
+    if sort2 == "분류없음":
+        pass
+    else:
+        board_list = board_list.filter(Q(category__contains=sort2))
 
     # 조회된 목록을 기준으로 검색 조건을 줘서 필터링
     # Q() : OR 조건으로 데이터를 조회
     # subject__contains(대소문자 구별)
     # subject__icontains(대소문자 구별 하지 않음)
-
-    # matches = ["익명", "집사"]
-    # if any(re.findall(r"|".join(matches), keyword, re.IGNORECASE)):
-    #    board_list = board_list.filter(
-    #        ~Q(nickname__icontains=keyword) | ~Q(answer__nickname__icontains=keyword)
-    #    )
 
     if keyword:
         board_list = board_list.filter(

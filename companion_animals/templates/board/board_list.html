@@ -34,6 +34,7 @@
     </div>
     <div class="col-2">
       <select class="form-control sort2" id="category" name="category">
+        <option value="분류없음" {% if sort == '분류없음' %}selected{% endif %}>분류없음</option>
         <option value="잡담" {% if sort2 == '잡담' %}selected{% endif %}>잡담</option>
         <option value="정보공유" {% if sort2 == '정보공유' %}selected{% endif %}>정보공유</option>
         <option value="모임" {% if sort2 == '모임' %}selected{% endif %}>모임</option>
