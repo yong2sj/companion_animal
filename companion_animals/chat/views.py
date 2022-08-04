@@ -1,4 +1,5 @@
 # chat/views.py
+from common.models import Profile
 from time import time
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -8,6 +9,7 @@ from tools.utils import get_client_ip
 
 def index(request):
     rooms = Room.objects.filter(count_users__lte=0)
+    profile = Profile.objects.get(user_id=request.user)
     for room in rooms:
         try:
             time.sleep(1)
@@ -17,6 +19,7 @@ def index(request):
     rooms = Room.objects.all()
     context = {
         "rooms": rooms,
+        "profile": profile,
     }
     return render(request, "chat/index.html", context)
 
@@ -26,6 +29,7 @@ def enter_room(request, room_pk):
     if request.user.is_authenticated:
         user = request.user
         room = Room.objects.get(pk=room_pk)
+        profile = Profile.objects.get(user_id=request.user)
 
         ### 인원 추가
         # 사용자 ip 가져오기
@@ -50,6 +54,7 @@ def enter_room(request, room_pk):
         context = {
             "room": room,
             "user": user,
+            "profile": profile,
         }
         return render(request, "chat/room.html", context)
 
