@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
+from requests import Session
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -143,4 +145,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
 
 # 로그아웃 성공시 이동할 URL 지정
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "main"
+
+# 세션
+SESSION_COOKIE_AGE = 3600
+SESSION_SAVE_EVERY_REQUEST = True
+
+# 이메일
+EMAIL_BACKENT = "django.core.mail.backends.smtp.EamilBackend"
+EMAIL_PORT = "587"
+EMAIL_HOST = "smtp.naver.com"
+EMAIL_HOST_USER = "ekor11@naver.com"
+EMAIL_HOST_PASSWORD = "1q2w3e4r!@"
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
