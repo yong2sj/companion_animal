@@ -28,13 +28,17 @@ SECRET_KEY = "django-insecure-rcudn2zr85wq%1b$t60%kx72^r)x#!bn9%8-n&y4k13*oll)-2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["18.221.54.73", "*"]
 
 # 커스텀 유저 사용
 # AUTH_USER_MODEL = "common.User" // 앱.클래스
 
 # Application definition
 INSTALLED_APPS = [
+    # 채팅
+    "chat",
+    "channels",
+    # 기본 앱
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -50,6 +54,15 @@ INSTALLED_APPS = [
     # CSS 태그 제공
     "crispy_forms",
 ]
+WSGI_APPLICATION = "config.wsgi.application"
+
+# 채팅 웹소켓부분
+ASGI_APPLICATION = "config.asgi.application"
+
+# 인메모리 ChannelLayer 사용 -> 개발 환경
+# 프로덕션 환경에서는 Redis 사용 권장
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -78,8 +91,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
