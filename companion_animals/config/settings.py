@@ -167,6 +167,6 @@ EMAIL_BACKENT = "django.core.mail.backends.smtp.EamilBackend"
 EMAIL_PORT = "587"
 EMAIL_HOST = "smtp.naver.com"
 EMAIL_HOST_USER = "ekor11@naver.com"
-EMAIL_HOST_PASSWORD = "1q2w3e4r!@"
+EMAIL_HOST_PASSWORD = "solt12!@"
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
