@@ -23,25 +23,28 @@ def main(request):
         <h1>"""
             + row["가게이름"]
             + """</h1>
-        <p>"""
+        <p>주소 : """
             + row["상세주소"]
             + """</p>
-        <p>"""
+        <p> 전화번호 : """
             + row["전화번호"]
             + """</p>
-        <p>"""
+        <p>별점 : """
             + str(row["별점"])
-            + """</p>
-        <p>"""
-            + row["구분"]
-            + """</p>
-        """
+            + """</p>"""
         )
-        folium.Marker(
-            location=[row["위도"], row["경도"]],
-            popup=folium.Popup(html=html, max_width=2560),
-            icon=folium.Icon(color="purple", icon="info-sign"),
-        ).add_to(m)
+        if row["구분"] == "카페":
+            folium.Marker(
+                location=[row["위도"], row["경도"]],
+                popup=folium.Popup(html=html, max_width=2560),
+                icon=folium.Icon(color="blue", icon="coffee", prefix="fa"),
+            ).add_to(m)
+        else:
+            folium.Marker(
+                location=[row["위도"], row["경도"]],
+                popup=folium.Popup(html=html, max_width=2560),
+                icon=folium.Icon(color="red", icon="glyphicon-plus-sign"),
+            ).add_to(m)
 
     # html로 변환
     m = m._repr_html_()
