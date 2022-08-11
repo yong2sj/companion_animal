@@ -35,6 +35,13 @@ MANIFEST
 *.zip
 *.png
 *.jpg
+*.pptx
+*.ipynb
+*.xlsx
+*.csv
+*.xls
+*.pdf
+*.docx
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
